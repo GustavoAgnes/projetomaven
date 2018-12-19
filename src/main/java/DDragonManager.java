@@ -78,6 +78,10 @@ public class DDragonManager {
     // https://ddragon.leagueoflegends.com/cdn/7.24.1/data/en_US/champion.json
     public class ChampionList {
 
+        public Map<String, Champion> getData() {
+            return data;
+        }
+
         public Map<String, Champion> data;
 
         public class Champion {
@@ -95,26 +99,44 @@ public class DDragonManager {
         }
     }
 
-    public class Campeoes {
+    public class Campeao {
+        @Override
+        public String toString() {
+            return "Campeao{" +
+                    "id='" + id + '\'' +
+                    ", key='" + key + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getName() {
+            return name;
+        }
+
         public String id;
         // Numeric
         public String key;
         public String name;
 
-        public Campeoes(String idCampeoe, String keyCampeoe, String nomeCampeoe) {
-            this.id = idCampeoe;
-            this.key = keyCampeoe;
-            this.name = nomeCampeoe;
+        public Campeao(String nomeCampeao, String idCampeao, String keyCampeao) {
+        this.name = nomeCampeao;
+        this.id = idCampeao;
+        this.key = keyCampeao;
         }
     }
 
-    public static void main(String args[]) throws IOException {
-    //public void teste() throws IOException {
-      //  System.out.println(getChampionList(getLatestVersion()).data.values().stream().);
-        ArrayList al = new ArrayList<Champion>();
-       // al.add(getChampionList(getLatestVersion()).data.values().stream().map(champion -> (champion.name)));
-       // System.out.println(getChampionList(getLatestVersion()).data.values().stream().map(champion -> (champion.name)).collect(Collectors.toList()));
-        //System.out.println(getChampionList(getLatestVersion()).data.values().stream().map(champion -> (champion.name)).collect(Collectors.toList()).toString());
+   // public ArrayList<Campeao> retornaCampeao() throws IOException {
+    public String retornaCampeao(int chave) throws IOException{
+        HashMap campeoes = new HashMap<>();
+
         String nomes = getChampionList(getLatestVersion()).data.values().stream().map(champion -> (champion.name)).collect(Collectors.toList()).toString().replace("[","");
         nomes = nomes.replace("]","");
         nomes = nomes.trim();
@@ -125,18 +147,18 @@ public class DDragonManager {
         ids = ids.trim();
         String idCampeoes[] = ids.split(",");
 
-        String key = getChampionList(getLatestVersion()).data.values().stream().map(champion -> (champion.id)).collect(Collectors.toList()).toString().replace("[","");
+        String key = getChampionList(getLatestVersion()).data.values().stream().map(champion -> (champion.key)).collect(Collectors.toList()).toString().replace("[","");
         key = key.replace("]","");
         key = key.trim();
+        key = key.replace(" ","");
         String keyCampeoes[] = key.split(",");
 
-
-
-        for(int i = 0;i<nomeCampeoes.length;i++){
-       //     al.add(new Campeoes(idCampeoes[i],keyCampeoes[i],nomeCampeoes[i]));
-        //    System.out.println(nomeCampeoes[i]);
+        for(int i=0;i<nomeCampeoes.length;i++){ ///// modificar
+            campeoes.put(Integer.parseInt(keyCampeoes[i]),nomeCampeoes[i]);
         }
-        System.out.println(al.size());
+
+        return campeoes.get(chave).toString().trim();
     }
+
 
 }
